@@ -1,0 +1,54 @@
+﻿<!-- View Dosyasında Kullanılacak Modelin Türünü Belirtir. -->
+@model AspNet_MVC_CRUD_Islemleri.Models.EmployeeViewModel
+
+@{
+    ViewData["Title"] = "Kişi Düzenle"; //View başlığı, sayfa tarayıcısında gösterilir.
+    var errorMessage = TempData["errorMessage"]?.ToString(); //Geçici veri tutar. Değer varsa successMessage değişkenine atar yoksa null.
+}
+<h3>@ViewData["Title"]</h3>
+<hr />
+@if (!string.IsNullOrWhiteSpace(errorMessage)) //değişken boş değilse ve null değilse
+{
+    <div class="alert alert-danger">
+        <strong> Hata! </strong>@errorMessage <!-- Başarılı! cümlesiyle birlikte successMessage değişkeninde ki mesajı içerir. -->
+        <button type="button" class="btn-close float-end" data-bs-dismiss="alert"></button> <!-- Mesajı Kapatma Butonu -->
+    </div>
+
+}
+<form action="Edit" method="post">
+    <div class="m-3">
+        <label class="form-label">Id</label>
+        <input type="text" class="form-control" asp-for="Id" readonly /> <!-- readonly=düzenlenemez / Id-->
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Ad</label>
+        <input type="text" class="form-control" asp-for="FirstName" /> <!-- Ad -->
+        <span asp-validation-for="FirstName" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Soyad</label>
+        <input type="text" class="form-control" asp-for="LastName" /> <!-- Soyad -->
+        <span asp-validation-for="LastName" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Doğum Tarihi</label>
+        <input type="date" class="form-control" asp-for="DateOfbirth" /> <!-- Doğum Tarihi -->
+        <span asp-validation-for="DateOfbirth" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">E-Posta</label>
+        <input type="text" class="form-control" asp-for="Email" /> <!-- E-Posta -->
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Maaş</label>
+        <div class="input-group">
+            <span class="input-group-text">₺</span>
+            <input type="text" class="form-control" asp-for="Salary" /> <!-- Maaş -->
+        </div>       
+        <span asp-validation-for="Salary" class="text-danger"></span>
+    </div>
+    <div class="d-grid">
+        <button type="submit" class="btn btn-success">Güncelle</button>
+    </div>
+</form>

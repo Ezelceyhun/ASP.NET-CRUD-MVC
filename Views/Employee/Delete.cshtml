@@ -1,0 +1,51 @@
+﻿<!-- View Dosyasında Kullanılacak Modelin Türünü Belirtir. -->
+@model AspNet_MVC_CRUD_Islemleri.Models.EmployeeViewModel
+
+@{
+    ViewData["Title"] = "Kişi Sil"; //View başlığı, sayfa tarayıcısında gösterilir.
+    var errorMessage = TempData["errorMessage"]?.ToString(); //Geçici veri tutar. Değer varsa successMessage değişkenine atar yoksa null.
+}
+<h3>@ViewData["Title"]</h3>
+<hr />
+@if (!string.IsNullOrWhiteSpace(errorMessage)) //değişken boş değilse ve null değilse
+{
+    <div class="alert alert-danger">
+        <strong> Hata! </strong>@errorMessage <!-- Başarılı! cümlesiyle birlikte successMessage değişkeninde ki mesajı içerir. -->
+        <button type="button" class="btn-close float-end" data-bs-dismiss="alert"></button> <!-- Mesajı Kapatma Butonu -->
+    </div>
+
+}
+<form action="Delete" method="post">
+    <!-- Tüm inputlar readonly olmalı. (düzenlenemez) -->
+    <div class="m-3">
+        <label class="form-label">Id</label>
+        <input type="text" class="form-control" asp-for="Id" readonly /> <!-- Id -->
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Ad</label>
+        <input type="text" class="form-control" asp-for="FirstName" readonly /> <!-- Ad -->
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Soyad</label>
+        <input type="text" class="form-control" asp-for="LastName" readonly /> <!-- Soyad -->
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Doğum Tarihi</label>
+        <input type="date" class="form-control" asp-for="DateOfbirth" readonly /> <!-- Doğum Tarihi -->
+    </div>
+    <div class="mb-3">
+        <label class="form-label">E-Posta</label>
+        <input type="text" class="form-control" asp-for="Email" readonly /> <!-- E-Posta -->
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Maaş</label>
+        <div class="input-group">
+            <span class="input-group-text">₺</span>
+            <input type="text" class="form-control" asp-for="Salary" readonly /> <!-- Maaş -->
+        </div>
+    </div>
+    <div class="d-grid">
+        <!-- Sil Butonuna Tıklanınca Önce Emin Misin Uyarısı Versin Cevaba Göre Silsin. -->
+        <button type="submit" class="btn btn-danger" onclick="return confirm ('Silmek İstediğine Emin Misin?' Adı: @Model.FullName')">Sil</button>
+    </div>
+</form>

@@ -1,0 +1,77 @@
+﻿<!-- EmployeeViewModel türünden bir liste kullanır. EmployeeViewModel sınıfının özelliklerini içeren Employee nesnelerinden oluşacaktır. -->
+@model List<AspNet_MVC_CRUD_Islemleri.Models.EmployeeViewModel>
+
+@{
+    ViewData["Title"] = "Kişiler Tablosu"; //View başlığı, sayfa tarayıcısında gösterilir.
+    var successMessage = TempData["successMessage"]?.ToString(); //Geçici veri tutar. Değer varsa successMessage değişkenine atar yoksa null.
+    var errorMessage = TempData["errorMessage"]?.ToString(); //Geçici veri tutar. Değer varsa errorMessage değişkenine atar yoksa null.
+}
+<h3>@ViewData["Title"]</h3> <!-- H3 Tagında Başlık Yaz -->
+<hr />
+@if(!string.IsNullOrWhiteSpace(successMessage)) //değişken boş değilse ve null değilse
+{
+    <div class="alert alert-success">
+        <strong> Başarılı! </strong>@successMessage <!-- Başarılı! cümlesiyle birlikte successMessage değişkeninde ki mesajı içerir. -->
+        <button type="button" class="btn-close float-end" data-bs-dismiss="alert"></button> <!-- Mesajı Kapatma Butonu -->
+    </div>
+    
+}
+else if (!string.IsNullOrWhiteSpace(errorMessage)) //değişken boş değilse ve null değilse
+{
+    <div class="alert alert-danger">
+        <strong> Hata! </strong>@errorMessage <!-- Hata! cümlesiyle birlikte errorMessage değişkeninde ki mesajı içerir. -->
+        <button type="button" class="btn-close float-end" data-bs-dismiss="alert"></button> <!-- Mesajı Kapatma Butonu -->
+    </div>
+    
+}
+<form>
+    <!-- Kişi Ekleme sayfasına yönlendirme butonu -->
+    <button asp-action="Create" asp-controller="Employee" class="btn btn-primary mb-3">Yeni Kişi Ekle</button> 
+    <!-- Tüm Kişilerin Bilgilerinin Gözüktüğü Tablo Başlangıcı -->
+    <table class="table table-responsive table-hover table-bordered">
+        <thead>
+            <tr class="table-active">
+                <th>Id</th>
+                <th>Adı</th>
+                <th>Doğum Tarihi</th>
+                <th>E-Posta</th>
+                <th>Maaşı</th>
+                <th>Komutlar</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Veritabanındaki DataBase'de veri var ise ve null değilse -->
+            @if(Model != null && Model.Any())
+            {
+                <!-- Sütunları doldur. -->
+                @foreach(var employee in Model)
+                {
+                    <tr>
+                        <td>@employee.Id</td>
+                        <td>@employee.FullName</td>
+                        <td>@employee.DateOfbirth.ToString("dd/MM/yyyy")</td>
+                        <td>@employee.Email</td>
+                        <td>@employee.Salary</td>
+                        <td>
+                            <!-- Düzenleme ve Silme Butonu -->
+                            <div class="btn-group btn-group-sm">
+                                <a asp-controller="Employee" asp-action="Edit" asp-route-id="@employee.Id" class="btn btn-primary">Düzenle</a>
+                                <a asp-controller="Employee" asp-action="Delete" asp-route-id="@employee.Id" class="btn btn-danger">Sil</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="6">
+                        <div>
+                            Eklenen Veri Yok!
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</form>
